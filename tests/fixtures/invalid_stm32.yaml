@@ -1,0 +1,10 @@
+component:
+  id: "MCU_INVALID"
+  name: "Invalid STM32"
+  category: "unknown"
+  manufacturer: "Test"
+  electrical:
+    logic_voltage: -3.3
+    input_voltage_min: 2.0
+    input_voltage_max: 3.6
+  pins: []

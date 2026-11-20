@@ -1,0 +1,35 @@
+component:
+  id: "ACTUATOR_DC_MOTOR_DRIVER_GENERIC"
+  name: "Generic DC Motor Driver"
+  category: "actuator"
+  manufacturer: "Generic"
+  model: "Dual Input Motor Driver Interface"
+  description: "Generic DC motor driver interface with direction and speed control signals."
+
+  pins:
+    - id: "VM"
+      type: "power"
+      direction: "power"
+      functions: ["motor_power_supply"]
+
+    - id: "GND"
+      type: "ground"
+      functions: ["ground"]
+
+    - id: "IN1"
+      type: "digital"
+      direction: "input"
+      functions: ["motor_direction_control"]
+
+    - id: "IN2"
+      type: "digital"
+      direction: "input"
+      functions: ["motor_direction_control"]
+
+    - id: "PWM"
+      type: "digital"
+      direction: "input"
+      functions: ["motor_speed_control"]
+
+  metadata:
+    verification_status: "generic_logical_profile"

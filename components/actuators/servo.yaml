@@ -1,0 +1,25 @@
+component:
+  id: "ACTUATOR_SERVO_GENERIC"
+  name: "Generic Servo Motor"
+  category: "actuator"
+  manufacturer: "Generic"
+  model: "PWM Servo Motor"
+  description: "Generic servo motor interface controlled through a PWM signal."
+
+  pins:
+    - id: "VCC"
+      type: "power"
+      direction: "power"
+      functions: ["power_supply"]
+
+    - id: "GND"
+      type: "ground"
+      functions: ["ground"]
+
+    - id: "SIGNAL"
+      type: "digital"
+      direction: "input"
+      functions: ["pwm_control"]
+
+  metadata:
+    verification_status: "generic_logical_profile"

@@ -1,0 +1,25 @@
+component:
+  id: "SENSOR_LDR_GENERIC"
+  name: "Generic LDR Sensor"
+  category: "sensor"
+  manufacturer: "Generic"
+  model: "Light Dependent Resistor"
+  description: "Generic light sensing component profile."
+
+  pins:
+    - id: "VCC"
+      type: "power"
+      direction: "power"
+      functions: ["power_supply"]
+
+    - id: "GND"
+      type: "ground"
+      functions: ["ground"]
+
+    - id: "AO"
+      type: "analog"
+      direction: "output"
+      functions: ["analog_light_output"]
+
+  metadata:
+    verification_status: "generic_logical_profile"

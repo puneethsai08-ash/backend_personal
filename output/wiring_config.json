@@ -1,0 +1,25 @@
+{
+    "schema_version": "1.0",
+    "connections": [
+        {
+            "source": {
+                "component_id": "SENSOR_ULTRASONIC_GENERIC",
+                "pin_id": "ECHO"
+            },
+            "target": {
+                "component_id": "MCU_STM32F407",
+                "pin_id": "PA0"
+            }
+        },
+        {
+            "source": {
+                "component_id": "MCU_STM32F407",
+                "pin_id": "PB0"
+            },
+            "target": {
+                "component_id": "ACTUATOR_SERVO_GENERIC",
+                "pin_id": "SIGNAL"
+            }
+        }
+    ]
+}

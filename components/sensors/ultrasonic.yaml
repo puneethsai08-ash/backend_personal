@@ -1,0 +1,30 @@
+component:
+  id: "SENSOR_ULTRASONIC_GENERIC"
+  name: "Generic Ultrasonic Sensor"
+  category: "sensor"
+  manufacturer: "Generic"
+  model: "Ultrasonic Distance Sensor"
+  description: "Generic ultrasonic sensor interface profile for distance measurement."
+
+  pins:
+    - id: "VCC"
+      type: "power"
+      direction: "power"
+      functions: ["power_supply"]
+
+    - id: "GND"
+      type: "ground"
+      functions: ["ground"]
+
+    - id: "TRIG"
+      type: "digital"
+      direction: "input"
+      functions: ["trigger_input"]
+
+    - id: "ECHO"
+      type: "digital"
+      direction: "output"
+      functions: ["echo_output"]
+
+  metadata:
+    verification_status: "generic_logical_profile"

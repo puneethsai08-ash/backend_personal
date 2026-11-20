@@ -1,0 +1,28 @@
+component:
+  id: "MCU_STM32F407"
+  name: "STM32F407"
+  category: "microcontroller"
+  manufacturer: "STMicroelectronics"
+  description: "STM32F407 microcontroller profile for RoboBench."
+
+  electrical:
+    logic_voltage: 3.3
+    input_voltage_min: 2.0
+    input_voltage_max: 3.6
+
+  pins:
+    - id: "PA0"
+      type: "gpio"
+      functions: ["digital_input"]
+
+    - id: "PA1"
+      type: "gpio"
+      functions: ["digital_input"]
+
+    - id: "PB0"
+      type: "gpio"
+      functions: ["digital_output"]
+
+    - id: "PB1"
+      type: "gpio"
+      functions: ["digital_output"]
