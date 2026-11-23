@@ -1,0 +1,37 @@
+id: demo_servo_bot
+name: Demo Servo Bot
+root_link: base_link
+links:
+  - id: base_link
+    asset: cad_assets/demo_tetra.stl
+  - id: servo_arm
+    asset: cad_assets/demo_tetra.stl
+  - id: sensor_mount
+    asset: cad_assets/demo_tetra.stl
+joints:
+  - id: servo_joint
+    type: revolute
+    parent_link: base_link
+    child_link: servo_arm
+    axis: [0, 1, 0]
+    range: [-1.5708, 1.5708]
+  - id: sensor_mount_joint
+    type: fixed
+    parent_link: servo_arm
+    child_link: sensor_mount
+component_bindings:
+  - instance_id: servo_1
+    component_id: ACTUATOR_SERVO_GENERIC
+    link_id: servo_arm
+    joint_id: servo_joint
+    pin_bindings:
+      - pin_id: SIGNAL
+        role: control
+  - instance_id: ultrasonic_1
+    component_id: SENSOR_ULTRASONIC_GENERIC
+    link_id: sensor_mount
+    pin_bindings:
+      - pin_id: TRIG
+        role: control
+      - pin_id: ECHO
+        role: sensor

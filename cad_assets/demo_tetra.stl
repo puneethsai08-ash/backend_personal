@@ -1,0 +1,30 @@
+solid demo_tetra
+  facet normal 0 0 -1
+    outer loop
+      vertex 0 0 0
+      vertex 0 0.012 0
+      vertex 0.04 0 0
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex 0 0 0
+      vertex 0.04 0 0
+      vertex 0 0 0.004
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex 0 0 0
+      vertex 0 0 0.004
+      vertex 0 0.012 0
+    endloop
+  endfacet
+  facet normal 1 1 1
+    outer loop
+      vertex 0.04 0 0
+      vertex 0 0.012 0
+      vertex 0 0 0.004
+    endloop
+  endfacet
+endsolid demo_tetra
