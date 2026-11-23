@@ -15,6 +15,8 @@ It supports:
 - Wiring connection management.
 - JSON wiring configuration export.
 - REST API integration through FastAPI.
+- STL asset ingestion, physical metadata, and MJCF export.
+- Hardware-CAD binding validation and simulation-bundle compilation.
 
 ## Technology Stack
 
@@ -49,6 +51,8 @@ robobench-backend/
 │   ├── registry.py
 │   ├── wiring.py
 │   ├── connection_manager.py
+│   ├── cad.py
+│   ├── binding.py
 │   └── api.py
 │
 ├── tests/
@@ -63,3 +67,6 @@ robobench-backend/
 │
 ├── requirements.txt
 └── README.md
+
+See [docs/cad_binding_guide.md](docs/cad_binding_guide.md) for CAD asset and
+hardware-binding API details.
