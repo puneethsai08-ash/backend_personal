@@ -1,8 +1,12 @@
 """FastAPI integration layer for RoboBench Component Library."""
 
-from fastapi import FastAPI, HTTPException
+from pathlib import Path
+
+from fastapi import FastAPI, File, HTTPException, Response, UploadFile
 from pydantic import BaseModel
 
+import src.binding as binding_service
+import src.cad as cad_service
 from src.registry import ComponentRegistry, RegistryError
 from src.connection_manager import (
     ConnectionManager,
@@ -16,9 +20,10 @@ from src.wiring import (
 
 app = FastAPI(
     title="RoboBench Component Library API",
-    description="API for components, wiring validation and connections.",
+    description="API for hardware components, wiring, CAD assets, and bindings.",
     version="1.0.0",
 )
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 # Initialize component registry and connection manager.
@@ -39,6 +44,10 @@ class ConnectionRequest(BaseModel):
     source_pin_id: str
     target_component_id: str
     target_pin_id: str
+
+
+class BindingRequest(BaseModel):
+    binding_id: str
 
 
 @app.get("/")
@@ -145,3 +154,64 @@ def get_connections():
 @app.get("/connections/export")
 def export_connections():
     return connection_manager.to_dict()
+
+
+@app.post("/cad/ingest", status_code=201)
+async def ingest_cad_asset(file: UploadFile = File(...)):
+    try:
+        return cad_service.ingest_asset(
+            await file.read(),
+            file.filename or "",
+            cad_service.CAD_ASSET_DIR,
+        )
+    except cad_service.CADAssetError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+
+
+@app.get("/cad/{asset_id}/metadata")
+def get_cad_metadata(asset_id: str):
+    try:
+        return cad_service.get_metadata(asset_id, cad_service.CAD_ASSET_DIR)
+    except cad_service.CADAssetError as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error
+
+
+@app.get("/cad/{asset_id}/mjcf")
+def get_cad_mjcf(asset_id: str):
+    try:
+        metadata = cad_service.get_metadata(asset_id, cad_service.CAD_ASSET_DIR)
+        asset_path = cad_service.asset_path_for_id(asset_id, cad_service.CAD_ASSET_DIR)
+        return Response(
+            content=cad_service.export_asset_mjcf(metadata, asset_path.name),
+            media_type="application/xml",
+        )
+    except cad_service.CADAssetError as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error
+
+
+@app.post("/bindings/validate")
+def validate_hardware_binding(request: BindingRequest):
+    try:
+        binding = binding_service.load_binding(request.binding_id, PROJECT_ROOT)
+    except binding_service.BindingError as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error
+    result = binding_service.validate_binding(
+        binding,
+        registry,
+        PROJECT_ROOT,
+        connection_manager=connection_manager,
+    )
+    return {"valid": result["valid"], "errors": result["errors"]}
+
+
+@app.post("/bindings/compile")
+def compile_hardware_binding(request: BindingRequest):
+    try:
+        return binding_service.compile_binding_by_id(
+            request.binding_id,
+            registry,
+            PROJECT_ROOT,
+            connection_manager=connection_manager,
+        )
+    except binding_service.BindingError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
